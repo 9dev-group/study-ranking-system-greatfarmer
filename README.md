@@ -2,7 +2,8 @@
 
 ### API
 - GET /v1/ranking/user/{userId}
-- GET /v1/ranking/leader-board
+- GET /v1/ranking/leaderboard
+- GET /v1/ranking/leaderboard/top/{count}
 - POST /v1/ranking/user/{userId}/increase/{score}
 - POST /v1/ranking/user/{userId}/decrease/{score}
 
