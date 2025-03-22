@@ -7,7 +7,7 @@
         <mxCell id="q26tEHDGM0-mZe2CJqFm-3" value="Cache&lt;div&gt;(Redis)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="370" y="340" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="q26tEHDGM0-mZe2CJqFm-4" value="Dashboard" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="q26tEHDGM0-mZe2CJqFm-4" value="음악 순위&lt;div&gt;스코어보드&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="130" y="340" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="q26tEHDGM0-mZe2CJqFm-18" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" edge="1">
