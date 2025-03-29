@@ -116,6 +116,35 @@ CREATE TABLE SCOREBOARD_HISTORY (
             },
         ```
 
+### 디렉토리 구조
+```
+kr.co.music
+├── MusicAppApplication.kt
+│
+├── config/             → 설정 (Web, Security, Swagger 등)
+│
+├── controller/         → API 요청/응답 처리
+│   └── MusicController.kt
+│
+├── service/            → 비즈니스 로직 처리
+│   └── MusicService.kt
+│
+├── repository/         → DB 접근 (JPA, MyBatis 등)
+│   └── MusicRepository.kt
+│
+├── domain/             → Entity 클래스
+│   └── MusicEntity.kt
+│
+├── dto/                → 요청/응답 DTO
+│   ├── MusicRequestDto.kt
+│   └── MusicResponseDto.kt
+│
+├── exception/          → 공통 예외 처리
+│   ├── GlobalExceptionHandler.kt
+│   └── CustomException.kt
+│
+└── util/               → 공통 유틸, Mapper 등
+```
 
 참고 글
 - System Design
