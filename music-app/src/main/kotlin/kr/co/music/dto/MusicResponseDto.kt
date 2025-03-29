@@ -1,5 +1,7 @@
 package kr.co.music.dto
 
 data class MusicResponseDto(
-    val title: String
+    val id: Int,
+    val title: String,
+    val artist: String
 )

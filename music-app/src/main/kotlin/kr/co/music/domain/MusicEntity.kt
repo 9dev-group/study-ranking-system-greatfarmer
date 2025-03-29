@@ -9,7 +9,7 @@ class MusicEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "music_id")
-    val musicId: Long? = null,
+    val musicId: Int = 0,
 
     @Column(name = "title", nullable = false)
     val title: String,
