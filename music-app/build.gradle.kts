@@ -11,7 +11,7 @@ version = "0.0.1-SNAPSHOT"
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
+		languageVersion.set(JavaLanguageVersion.of(17))
 	}
 }
 
@@ -26,9 +26,7 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.flywaydb:flyway-core")
-//	implementation("org.springdoc:springdoc-openapi-ui:1.8.0")
-//	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.0")
-//	implementation("jakarta.servlet:jakarta.servlet-api:4.0.4")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
 	runtimeOnly("com.h2database:h2")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
