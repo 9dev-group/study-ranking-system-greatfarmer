@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface MusicRepository: JpaRepository<MusicEntity, Long> {
+    fun findByMusicId(musicId: Int): MusicEntity?
     fun findByTitle(title: String): MusicEntity?
+    fun findByArtist(artist: String): MusicEntity?
 
     @Query("""
        SELECT NEW kr.co.music.dto.ScoreboardResponseDto(m.musicId, m.title, m.artist, s.score)

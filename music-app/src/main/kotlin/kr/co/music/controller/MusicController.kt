@@ -15,9 +15,17 @@ class MusicController(
     val scoreboardService: ScoreboardService
 ) {
 
+    @GetMapping("/id/{id}")
+    fun getMusicById(@PathVariable id: Int) =
+        ResponseEntity.ok(musicService.getMusicById(id))
+
     @GetMapping("/title/{title}")
     fun getMusicByTitle(@PathVariable title: String) =
         ResponseEntity.ok(musicService.getMusicByTitle(title))
+
+    @GetMapping("/artist/{artist}")
+    fun getMusicByArtist(@PathVariable artist: String) =
+        ResponseEntity.ok(musicService.getMusicByArtist(artist))
 
     @GetMapping("/scoreboard/daily/top/{count}")
     fun getDailyTopScoreboardByCount(@PathVariable count: Int) =

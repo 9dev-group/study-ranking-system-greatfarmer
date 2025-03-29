@@ -11,9 +11,16 @@ import org.springframework.stereotype.Service
 class MusicServiceImpl(
     private val musicRepository: MusicRepository
 ): MusicService {
+    override fun getMusicById(id: Int): MusicEntity? {
+        return musicRepository.findByMusicId(id)
+    }
 
     override fun getMusicByTitle(title: String): MusicEntity? {
         return musicRepository.findByTitle(title)
+    }
+
+    override fun getMusicByArtist(artist: String): MusicEntity? {
+        return musicRepository.findByArtist(artist)
     }
 
     override fun getDailyTopScoreboardByCount(count: Int): List<ScoreboardResponseDto> {
