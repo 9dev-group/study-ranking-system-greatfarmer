@@ -146,7 +146,14 @@ kr.co.music
 └── util/               → 공통 유틸, Mapper 등
 ```
 
-참고 글
+### 기술스택
+- Kotlin (Java 17)
+- Spring Boot 3.3.X
+- H2 DB
+- Flyway 10.10.X
+- Swagger (SpringDoc OpenAPI Starter WebMVC UI)
+
+### 참고
 - System Design
   - [Leaderboard System Design](https://systemdesign.one/leaderboard-system-design/)
 - Flyway
