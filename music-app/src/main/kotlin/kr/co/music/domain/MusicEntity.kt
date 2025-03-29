@@ -11,10 +11,10 @@ class MusicEntity(
     @Column(name = "music_id")
     val musicId: Long? = null,
 
-    @Column(nullable = false)
+    @Column(name = "title", nullable = false)
     val title: String,
 
-    @Column(nullable = false)
+    @Column(name = "artist", nullable = false)
     val artist: String
 ) : BaseEntity() {
     override fun equals(other: Any?): Boolean {

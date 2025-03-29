@@ -1,4 +1,7 @@
 package kr.co.music.service
 
-class MusicService {
+import kr.co.music.domain.MusicEntity
+
+interface MusicService {
+    fun getMusicByTitle(title: String): MusicEntity?
 }
