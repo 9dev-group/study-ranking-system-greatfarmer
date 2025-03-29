@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface ScoreboardRepository: JpaRepository<ScoreboardEntity, Long>, ScoreboardRepositoryCustom {
-
+    fun findByMusicId(musicId: Int): ScoreboardEntity?
 }

@@ -9,4 +9,5 @@ interface MusicService {
     fun getMusicByTitle(title: String): MusicEntity?
     fun getMusicByArtist(artist: String): MusicEntity?
     fun getDailyTopScoreboardByCount(count: Int): List<ScoreboardResponseDto>
+    fun increaseScoreById(id: Int, score: Int): ScoreboardResponseDto?
 }

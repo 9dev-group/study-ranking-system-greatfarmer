@@ -2,7 +2,9 @@ package kr.co.music.domain
 
 import jakarta.persistence.*
 import kr.co.music.domain.common.BaseEntity
+import org.hibernate.annotations.DynamicUpdate
 
+@DynamicUpdate
 @Entity
 @Table(name = "SCOREBOARD")
 class ScoreboardEntity(
@@ -11,11 +13,11 @@ class ScoreboardEntity(
     @Column(name = "scoreboard_id")
     val id: Int = 0,
 
-    @Column(name = "music_id", nullable = true)
-    val musicId: Int? = null,
+    @Column(name = "music_id", nullable = false)
+    val musicId: Int,
 
-    @Column(name = "score", nullable = true)
-    val score: Int? = null
+    @Column(name = "score", nullable = false)
+    var score: Int
 ) : BaseEntity() {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -32,8 +34,8 @@ class ScoreboardEntity(
 
     override fun hashCode(): Int {
         var result = id
-        result = 31 * result + (musicId ?: 0)
-        result = 31 * result + (score ?: 0)
+        result = 31 * result + musicId
+        result = 31 * result + score
         return result
     }
 
