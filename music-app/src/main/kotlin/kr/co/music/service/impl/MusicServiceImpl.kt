@@ -1,10 +1,12 @@
 package kr.co.music.service.impl
 
 import kr.co.music.domain.MusicEntity
+import kr.co.music.dto.MusicScoreEventDto
 import kr.co.music.dto.ScoreboardResponseDto
 import kr.co.music.repository.MusicRepository
 import kr.co.music.repository.ScoreboardRepository
 import kr.co.music.service.MusicService
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -12,7 +14,8 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class MusicServiceImpl(
     private val musicRepository: MusicRepository,
-    private val scoreboardRepository: ScoreboardRepository
+    private val scoreboardRepository: ScoreboardRepository,
+    private val eventPublisher: ApplicationEventPublisher
 ): MusicService {
     override fun getMusicById(id: Int): MusicEntity? {
         return musicRepository.findByMusicId(id)
@@ -34,6 +37,8 @@ class MusicServiceImpl(
     override fun increaseScoreById(id: Int, score: Int): ScoreboardResponseDto? {
         scoreboardRepository.findByMusicId(id)?.let {
             it.score += score
+            val music = getMusicById(id)
+            eventPublisher.publishEvent(MusicScoreEventDto(music?.title ?: "", music?.artist ?: "", it.score))
         }
         return musicRepository.findMusicScoreByMusicId(id)
     }
