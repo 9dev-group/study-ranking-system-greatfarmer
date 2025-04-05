@@ -6,10 +6,13 @@ import kr.co.music.dto.ScoreboardResponseDto
 import kr.co.music.repository.MusicRepository
 import kr.co.music.repository.ScoreboardRepository
 import kr.co.music.service.MusicService
+import kr.co.music.util.Log
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.domain.PageRequest
+import org.springframework.retry.annotation.Recover
+import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -18,10 +21,21 @@ class MusicServiceImpl(
     private val musicRepository: MusicRepository,
     private val scoreboardRepository: ScoreboardRepository,
     private val eventPublisher: ApplicationEventPublisher
-): MusicService {
+): MusicService, Log {
 
+    @Retryable(maxAttempts = 1)
     @Cacheable(cacheNames = ["musicCache"], key = "'musicId::' + #id")
     override fun getMusicById(id: Int): ScoreboardResponseDto? {
+        return findMusicScoreByMusicId(id)
+    }
+
+    @Recover
+    fun recoverGetMusicById(e: Exception, id: Int): ScoreboardResponseDto? {
+        logger.error(e.message)
+        return findMusicScoreByMusicId(id)
+    }
+
+    private fun findMusicScoreByMusicId(id: Int): ScoreboardResponseDto? {
         return musicRepository.findMusicScoreByMusicId(id)
     }
 
