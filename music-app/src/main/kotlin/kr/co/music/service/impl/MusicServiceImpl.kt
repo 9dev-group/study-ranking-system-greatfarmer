@@ -1,5 +1,6 @@
 package kr.co.music.service.impl
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker
 import kr.co.music.domain.MusicEntity
 import kr.co.music.dto.MusicScoreEventDto
 import kr.co.music.dto.ScoreboardResponseDto
@@ -23,15 +24,29 @@ class MusicServiceImpl(
     private val eventPublisher: ApplicationEventPublisher
 ): MusicService, Log {
 
-    @Retryable(maxAttempts = 1)
+    // @Retryable, @Recover 사용
+//    @Retryable(maxAttempts = 1)
+//    @Cacheable(cacheNames = ["musicCache"], key = "'musicId::' + #id")
+//    override fun getMusicById(id: Int): ScoreboardResponseDto? {
+//        return findMusicScoreByMusicId(id)
+//    }
+//
+//    @Recover
+//    fun recoverGetMusicById(id: Int, e: Exception): ScoreboardResponseDto? {
+//        logger.warn("Redis access failed. Fallback to DB. cause: ${e.message}")
+//        return findMusicScoreByMusicId(id)
+//    }
+
+    // CircuitBreaker 사용
+    @CircuitBreaker(name = "redis-circuitbreaker", fallbackMethod = "fallbackFindMusicScoreByMusicId")
     @Cacheable(cacheNames = ["musicCache"], key = "'musicId::' + #id")
     override fun getMusicById(id: Int): ScoreboardResponseDto? {
         return findMusicScoreByMusicId(id)
     }
 
-    @Recover
-    fun recoverGetMusicById(e: Exception, id: Int): ScoreboardResponseDto? {
-        logger.error(e.message)
+    private fun fallbackFindMusicScoreByMusicId(id: Int, e: Throwable): ScoreboardResponseDto? {
+        // 로그 출력이나 추가 대응도 가능
+        logger.warn("Redis access failed. Fallback to DB. cause: ${e.message}")
         return findMusicScoreByMusicId(id)
     }
 
