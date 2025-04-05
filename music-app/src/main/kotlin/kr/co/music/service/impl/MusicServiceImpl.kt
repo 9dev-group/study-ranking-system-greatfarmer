@@ -6,6 +6,8 @@ import kr.co.music.dto.ScoreboardResponseDto
 import kr.co.music.repository.MusicRepository
 import kr.co.music.repository.ScoreboardRepository
 import kr.co.music.service.MusicService
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
@@ -17,8 +19,10 @@ class MusicServiceImpl(
     private val scoreboardRepository: ScoreboardRepository,
     private val eventPublisher: ApplicationEventPublisher
 ): MusicService {
-    override fun getMusicById(id: Int): MusicEntity? {
-        return musicRepository.findByMusicId(id)
+
+    @Cacheable(cacheNames = ["musicCache"], key = "'musicId::' + #id")
+    override fun getMusicById(id: Int): ScoreboardResponseDto? {
+        return musicRepository.findMusicScoreByMusicId(id)
     }
 
     override fun getMusicByTitle(title: String): MusicEntity? {
@@ -34,6 +38,7 @@ class MusicServiceImpl(
     }
 
     @Transactional
+    @CacheEvict(cacheNames = ["musicCache"], key = "'musicId::' + #id")
     override fun increaseScoreById(id: Int, score: Int): ScoreboardResponseDto? {
         scoreboardRepository.findByMusicId(id)?.let {
             it.score += score
