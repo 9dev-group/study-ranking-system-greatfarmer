@@ -165,3 +165,5 @@ kr.co.music
   - [Spring Boot Cache with Redis](https://www.baeldung.com/spring-boot-redis-cache)
   - [통신 중 실패했을 때 재시도하기(@Retryable, @Recover)](https://pepega.tistory.com/42)
   - [Redis 장애 처리하기](https://velog.io/@chs98412/%EB%A0%88%EB%94%94%EC%8A%A4-%EC%9E%A5%EC%95%A0-%EC%B2%98%EB%A6%AC%ED%95%98%EA%B8%B0)
+- Circuitbreaker
+  - [Circuitbreaker를 사용한 장애 전파 방지](https://oliveyoung.tech/2023-08-31/circuitbreaker-inventory-squad/)
