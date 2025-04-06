@@ -18,10 +18,67 @@
 ![아키텍쳐](ranking_20250322.drawio.png)
 
 ### 시퀀스다이어그램
-![시퀀스다이어그램](circuitbreaker_sequence_diagram_20250406.png)
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Service
+    participant CircuitBreaker
+    participant RedisCache
+    participant Database
+
+    Client->>Service: getMusicById(id)
+    Service->>CircuitBreaker: call Redis
+    alt Redis OK
+        CircuitBreaker->>RedisCache: get("musicId::id")
+        RedisCache-->>CircuitBreaker: ScoreboardResponseDto
+        CircuitBreaker-->>Service: return cached data
+        Service-->>Client: return cached data
+    else Redis Failure
+        CircuitBreaker-->>Service: fallback triggered
+        Service->>Database: findMusicScoreByMusicId(id)
+        Database-->>Service: ScoreboardResponseDto
+        Service-->>Client: return DB data
+    end
+```
 
 ### 테이블 설계
 ![테이블 설계](ranking_db_20250322.drawio.png)
+```mermaid
+erDiagram
+    MUSIC {
+        INT music_id PK
+        VARCHAR title
+        VARCHAR artist
+        DATETIME ins_date
+        VARCHAR ins_oprt
+        DATETIME upd_date
+        VARCHAR upd_oprt
+    }
+
+    SCOREBOARD {
+        INT scoreboard_id PK
+        INT music_id FK
+        INT score
+        DATETIME ins_date
+        VARCHAR ins_oprt
+        DATETIME upd_date
+        VARCHAR upd_oprt
+    }
+
+    SCOREBOARD_HISTORY {
+        INT scoreboard_history_id PK
+        INT scoreboard_id FK
+        INT music_id
+        INT score
+        DATETIME ins_date
+        VARCHAR ins_oprt
+        DATETIME upd_date
+        VARCHAR upd_oprt
+    }
+
+    MUSIC ||--|| SCOREBOARD : has
+    SCOREBOARD ||--|{ SCOREBOARD_HISTORY : logs
+```
 
 ### DDL
 ```sql
