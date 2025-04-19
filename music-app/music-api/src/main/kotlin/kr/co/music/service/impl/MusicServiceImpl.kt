@@ -15,7 +15,6 @@ import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.redis.core.RedisTemplate
-import org.springframework.retry.annotation.Recover
 import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -51,7 +50,9 @@ class MusicServiceImpl(
     @CircuitBreaker(name = "redis-circuitbreaker", fallbackMethod = "fallbackFindMusicScoreByMusicId")
     @Cacheable(cacheNames = [CACHE_REDIS_KEY], key = "'musicId::' + #id")
     override fun getMusicById(id: Int): ScoreboardResponseDto? {
-        return findMusicScoreByMusicId(id)
+        val result = findMusicScoreByMusicId(id)
+        result?.score?.let { setMusicRankingByIdUsingRedis(id, it) }
+        return result
     }
 
     private fun fallbackFindMusicScoreByMusicId(id: Int, e: Throwable): ScoreboardResponseDto? {
@@ -60,9 +61,7 @@ class MusicServiceImpl(
     }
 
     private fun findMusicScoreByMusicId(id: Int): ScoreboardResponseDto? {
-        val result = musicRepository.findMusicScoreByMusicId(id) ?: throw NotFoundException()
-        setMusicRankingByIdUsingRedis(id, result.score)
-        return result
+        return musicRepository.findMusicScoreByMusicId(id) ?: throw NotFoundException()
     }
 
     override fun getMusicByTitle(title: String): MusicEntity? {
