@@ -33,3 +33,12 @@ spring:
     level:
       org.springframework.batch: DEBUG
       org.hibernate.SQL: DEBUG
+
+spotify:
+  account:
+    url: "https://accounts.spotify.com"
+    grant-type: "client_credentials"
+    client-id: "bafc30f1e7ca425485ec4d98d6f1fae3"
+    client-secret: "e501fc23be0248eab81158c1dd7ac2ef"
+  api:
+    url: "https://api.spotify.com"

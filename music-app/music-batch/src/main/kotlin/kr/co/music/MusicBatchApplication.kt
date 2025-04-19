@@ -1,11 +1,11 @@
 package kr.co.music
 
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-import org.springframework.retry.annotation.EnableRetry
+import org.springframework.cloud.openfeign.EnableFeignClients
 
 @SpringBootApplication
+@EnableFeignClients(basePackages = ["kr.co.music.client"])
 class MusicAppApplication
 
 fun main(args: Array<String>) {
